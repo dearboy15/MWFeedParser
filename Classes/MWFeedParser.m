@@ -263,7 +263,14 @@
 			NSXMLParser *newFeedParser = [[NSXMLParser alloc] initWithData:data];
 			self.feedParser = newFeedParser;
 			if (feedParser) { 
-				
+
+                NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                string = [string stringByReplacingOccurrencesOfString:@" & "
+                                                           withString:@" &amp; "];
+                string = [string stringByReplacingOccurrencesOfString:@"_&_"
+                                                           withString:@"_&amp;_"];
+                data = [string dataUsingEncoding:NSUTF8StringEncoding];
+
 				// Parse!
 				feedParser.delegate = self;
 				[feedParser setShouldProcessNamespaces:YES];
